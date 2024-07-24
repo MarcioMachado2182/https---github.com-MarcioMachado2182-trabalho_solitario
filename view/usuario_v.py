@@ -8,12 +8,9 @@ class UsuarioView:
         self.controller = controller
 
         # Carregar a imagem de fundo
-        bg_image = Image.open("midia/Py-Shirts.png")
+        bg_image = Image.open("midia/imagem.jpg")
         self.bg_photo = ImageTk.PhotoImage(bg_image.resize((800, 600)))
 
-
-        load_bg_frame_rmg = Image.open("midia/bgframe_main.JPG")
-        self.bg_frame_bt_image = ImageTk.PhotoImage(load_bg_frame_rmg.resize((196, 37)))
         # Configurar a janela principal
         root.title("Tela Inicial")
         root.geometry("800x600")
@@ -23,16 +20,12 @@ class UsuarioView:
         self.bg_label.place(relwidth=1, relheight=1)
 
         # Frame para os botões
-        self.button_frame = tk.Frame(root, bg='white')
+        self.button_frame = tk.Frame(root, bg='black')
         self.button_frame.place(relx=0.95, rely=0.05, anchor='ne')
-         # Label para a imagem de fundo
-        self.bg_label_frame_bt_image = tk.Label(self.button_frame, image=self.bg_photo)
-        self.bg_label_frame_bt_image.place(relx=0.0, rely=0.0,relwidth=1, relheight=1)
-
 
         # Configuração de estilo para os botões
         style = ttk.Style()
-        style.configure("Transparent.TButton", background="orange", relief="flat")
+        style.configure("Transparent.TButton", background="black", relief="flat")
         
         # Botões de Login e Cadastro
         self.login_button = ttk.Button(self.button_frame, text="Login", command=self.controller.show_login_view, style="Transparent.TButton")
