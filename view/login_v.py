@@ -44,7 +44,7 @@ class LoginView(tk.Toplevel):
 
         ttk.Button(self.form_frame, text="Login", command=self.login_user).grid(row=2, column=0, columnspan=2, pady=10)
 
-        ttk.Button(self.form_frame, text="Cadastrar", command=self.show_cadastro_view).grid(row=3, column=0, columnspan=2, pady=5)
+        ttk.Button(self.form_frame, text="voltar para Cadastro", command=self.show_cadastro_view).grid(row=3, column=0, columnspan=2, pady=5)
 
     def login_user(self):
         """Verifica as credenciais do usuário no banco de dados"""
