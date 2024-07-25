@@ -1,4 +1,3 @@
-# main.py
 import tkinter as tk
 from controller.usuario_c import UsuarioController
 
@@ -9,4 +8,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
