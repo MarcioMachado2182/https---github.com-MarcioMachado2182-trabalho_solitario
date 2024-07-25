@@ -2,18 +2,21 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 
-class UsuarioView(tk.Frame):
+class UsuarioView(tk.Toplevel):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
-        self.configure(bg='white')
-        
+
+        # Configuração da janela inicial
+        self.title("Tela Inicial")
+        self.geometry("800x600")
+
         # Carregar a imagem de fundo
-        bg_image = Image.open("midia/casal_caveira.jpg")
+        bg_image = Image.open("midia/Feeling.png")
         self.bg_photo = ImageTk.PhotoImage(bg_image.resize((800, 600)))
         self.bg_label = tk.Label(self, image=self.bg_photo)
         self.bg_label.place(relwidth=1, relheight=1)
-        
+
         self.create_widgets()
 
     def create_widgets(self):

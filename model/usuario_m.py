@@ -1,5 +1,3 @@
-# model.py
-# model.py
 class UsuarioModel:
     def __init__(self):
         self.users = []
