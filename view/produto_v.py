@@ -12,7 +12,7 @@ class ProdutoView(tk.Toplevel):
         self.geometry("800x600")
 
         # Carregar a imagem de fundo
-        bg_image = Image.open("midia/Py-Shirts.png")
+        bg_image = Image.open("midia/casal_caveira.jpg")
         self.bg_photo = ImageTk.PhotoImage(bg_image.resize((800, 600)))
         self.bg_label = tk.Label(self, image=self.bg_photo)
         self.bg_label.place(relwidth=1, relheight=1)
