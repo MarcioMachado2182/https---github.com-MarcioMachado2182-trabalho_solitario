@@ -1,82 +1,52 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
-from PIL import Image, ImageTk
-from controller.banco_c import BancoController
-
+from tkinter import ttk
 
 class LoginView(tk.Toplevel):
-    def __init__(self, parent, controller):
-        super().__init__(parent)
+    def __init__(self, master=None, controller=None):
+        super().__init__(master)
         self.controller = controller
-        self.db = BancoController()
         self.title("Login")
-        self.geometry("800x600")
-
-        # Carregar a imagem de fundo
-        try:
-            bg_image = Image.open("midia/Feeling.png")
-            self.bg_photo = ImageTk.PhotoImage(bg_image.resize((800, 600)))
-            self.bg_label = tk.Label(self, image=self.bg_photo)
-            self.bg_label.place(relwidth=1, relheight=1)
-        except FileNotFoundError:
-            print("Arquivo de imagem não encontrado.")
-            messagebox.showerror("Erro", "Arquivo de imagem não encontrado.")
-            self.bg_photo = None
-        except Exception as e:
-            print(f"Erro ao carregar a imagem: {e}")
-            messagebox.showerror("Erro", f"Erro ao carregar a imagem: {e}")
-            self.bg_photo = None
-
+        self.geometry("400x300")
         self.create_widgets()
 
     def create_widgets(self):
-        """Cria os widgets da tela de login"""
-        self.form_frame = tk.Frame(self, bg='white', padx=20, pady=20)
-        self.form_frame.place(relx=0.5, rely=0.5, anchor='center')
+        # Frame para os widgets
+        frame = tk.Frame(self)
+        frame.pack(pady=10, padx=10, fill='both', expand=True)
 
-        ttk.Label(self.form_frame, text="E-mail:").grid(row=0, column=0, padx=10, pady=5, sticky="e")
-        self.email_entry = ttk.Entry(self.form_frame)
-        self.email_entry.grid(row=0, column=1, padx=10, pady=5, sticky="w")
+        # Label e campo para Email
+        tk.Label(frame, text="Email:").grid(row=0, column=0, columnspan=1, padx=5, pady=5)
+        self.email_entry = tk.Entry(frame)
+        self.email_entry.grid(row=0, column=1, padx=5, pady=5)
 
-        ttk.Label(self.form_frame, text="Senha:").grid(row=1, column=0, padx=10, pady=5, sticky="e")
-        self.password_entry = ttk.Entry(self.form_frame, show='*')
-        self.password_entry.grid(row=1, column=1, padx=10, pady=5, sticky="w")
+        # Label e campo para Senha
+        tk.Label(frame, text="Senha:").grid(row=1, column=0,  columnspan=1, pady=10)
+        self.senha_entry = tk.Entry(frame, show='*')
+        self.senha_entry.grid(row=1, column=1, padx=5, pady=5)
 
-        ttk.Button(self.form_frame, text="Login", command=self.login_user).grid(row=2, column=0, columnspan=2, pady=10)
+        # Botão para Submeter
+        login_button = tk.Button(frame, text="Login", command=self.login)
+        login_button.grid(row=2, column=1,  columnspan=1, pady=10)
 
-        ttk.Button(self.form_frame, text="voltar para Cadastro", command=self.show_cadastro_view).grid(row=3, column=0, columnspan=2, pady=5)
+        # Botão para Voltar para Cadastro
+        back_button = tk.Button(frame, text="Voltar para Cadastro", command=self.show_cadastro)
+        back_button.grid(row=3, column=0, columnspan=1, pady=10)
 
-    def login_user(self):
-        """Verifica as credenciais do usuário no banco de dados"""
+       # Botão para Voltar para Tela Inicial
+        back_button = tk.Button(frame, text="Voltar para Tela Inicial", command=self.destroy)
+        back_button.grid(row=4, column=0, columnspan=1, pady=10)
+
+    def login(self):
         email = self.email_entry.get()
-        senha = self.password_entry.get()
+        senha = self.senha_entry.get()
+        # Aqui você pode adicionar lógica de login, se necessário
+        print(f"Login attempt with email: {email} and password: {senha}")
 
-        if not (email and senha):
-            messagebox.showwarning("Aviso", "E-mail e senha são obrigatórios.")
-            return
+    def show_cadastro(self):
+        self.destroy()  # Fecha a tela de login
+        self.controller.show_cadastro()  # Abre a tela de cadastro
 
-        if self.db.validate_user(email, senha):
-            messagebox.showinfo("Sucesso", "Login bem-sucedido!")
-            self.show_main_view()
-        else:
-            messagebox.showerror("Erro", "E-mail ou senha incorretos.")
-
-    def show_cadastro_view(self):
-        """Destroi a tela de login e mostra a tela de cadastro"""
-        self.destroy()
-        self.controller.show_cadastro_view()
-
-    def show_main_view(self):
-        """Método fictício para mostrar a tela principal após login"""
-        print("Tela principal")  # Substitua por uma chamada para abrir a tela principal
-
-    def close(self):
-        """Fecha a conexão com o banco de dados"""
-        self.db.close()
-
-
-
-
+       
 
 
 
