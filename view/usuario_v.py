@@ -1,37 +1,77 @@
-# view/usuario_v.py
 import tkinter as tk
+from tkinter import PhotoImage
 from tkinter import ttk
-from PIL import Image, ImageTk
+from controller.usuario_c import UsuarioController
+from view.login_v import TelaLogin
+from view.cadastro_v import TelaCadastro
 
-class UsuarioView(tk.Tk):
-    def __init__(self, controller):
-        super().__init__()
-        self.controller = controller
-        self.title("Tela Inicial")
-        self.geometry("800x600")
-        self.create_widgets()
+class TelaInicial:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title("Tela Inicial")
 
-    def create_widgets(self):
-        # Carregar e configurar a imagem de fundo
-        try:
-            bg_image = Image.open("midia/background.png")
-            self.bg_photo = ImageTk.PhotoImage(bg_image.resize((800, 600)))
-            self.bg_label = tk.Label(self, image=self.bg_photo)
-            self.bg_label.place(relwidth=1, relheight=1)
-        except FileNotFoundError:
-            print("Arquivo de imagem não encontrado.")
+        # Carregar imagem de fundo
+        self.bg_image = PhotoImage(file="midia/Feeling.png")
+        self.bg_width = self.bg_image.width()
+        self.bg_height = self.bg_image.height()
 
-        # Frame para os botões no canto superior esquerdo
-        button_frame = tk.Frame(self, bg='white', bd=0)
-        button_frame.place(x=10, y=10, anchor='nw')
+        # Definir tamanho da janela para o tamanho da imagem
+        self.root.geometry(f"{self.bg_width}x{self.bg_height}")
+        self.root.resizable(False, False)  # Não permitir redimensionamento da janela
 
-        # Criar botões com fundo transparente
-        ttk.Button(button_frame, text="Cadastrar", command=self.controller.show_cadastro_view).pack(pady=5, padx=5, anchor='nw')
-        ttk.Button(button_frame, text="Login", command=self.controller.show_login_view).pack(pady=5, padx=5, anchor='nw')
-        ttk.Button(button_frame, text="Produtos", command=self.controller.show_produto_view).pack(pady=5, padx=5, anchor='nw')
+        # Configurar o fundo da janela
+        self.bg_label = tk.Label(self.root, image=self.bg_image)
+        self.bg_label.place(relwidth=1, relheight=1)
 
-        # Configurar o estilo dos botões para ter fundo transparente
-        style = ttk.Style()
-        style.configure('TButton', background='transparent', padding=5)
+        # Criar e posicionar botões com ttk
+        self.botao_cadastro = ttk.Button(self.root, text="Ir para Cadastro", command=self.ir_para_cadastro)
+        self.botao_cadastro.place(x=self.bg_width // 2 - 75, y=self.bg_height - 120, width=150, height=30)
+
+        self.botao_login = ttk.Button(self.root, text="Ir para Login", command=self.ir_para_login)
+        self.botao_login.place(x=self.bg_width // 2 - 75, y=self.bg_height - 80, width=150, height=30)
+
+        self.botao_produtos = ttk.Button(self.root, text="Ir para Produtos", command=self.ir_para_produtos)
+        self.botao_produtos.place(x=self.bg_width // 2 - 75, y=self.bg_height - 40, width=150, height=30)
+
+        # Inicializar o controlador
+        self.controller = UsuarioController(self)
+
+    def ir_para_cadastro(self):
+        # Ocultar a tela inicial
+        self.root.withdraw()
+        
+        # Cria uma nova instância da tela de cadastro
+        from view.cadastro_v import TelaCadastro
+        TelaCadastro(self.root)
+
+    def ir_para_login(self):
+        # Ocultar a tela inicial
+        self.root.withdraw()
+        
+        # Cria uma nova instância da tela de login
+        TelaLogin(self.root)
+
+    def ir_para_produtos(self):
+        # Ocultar a tela inicial
+        self.root.withdraw()
+        
+        # Cria uma nova instância da tela de produtos
+        from view.produtos_v import TelaProdutos
+        TelaProdutos(self.root)
+
+    def run(self):
+        self.root.mainloop()
+
+
+
+
+
+
+
+
+
+
+
+
 
 

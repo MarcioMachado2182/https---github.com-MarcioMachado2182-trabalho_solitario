@@ -1,61 +1,101 @@
 import tkinter as tk
+from tkinter import PhotoImage
 from tkinter import ttk
+from controller.cadastro_c import CadastroController
 
-class CadastroView(tk.Toplevel):
-    def __init__(self, master=None, controller=None):
-        super().__init__(master)
-        self.controller = controller
-        self.title("Cadastro")
-        self.geometry("400x300")
-        self.create_widgets()
+class TelaCadastro:
+    def __init__(self, parent):
+        self.parent = parent  # Referência para a tela inicial
 
-    def create_widgets(self):
-        # Frame para os widgets
-        frame = tk.Frame(self)
-        frame.pack(pady=10, padx=10, fill='both', expand=True)
+        # Cria uma nova janela (toplevel)
+        self.root = tk.Toplevel()
+        self.root.title("Tela de Cadastro")
 
-        # Label e campo para Nome
-        tk.Label(frame, text="Nome:").grid(row=0, column=0, padx=5, pady=5, sticky='e')
-        self.nome_entry = tk.Entry(frame)
-        self.nome_entry.grid(row=0, column=1, padx=5, pady=5)
+        # Carregar imagem de fundo
+        self.bg_image = PhotoImage(file="midia/Feeling.png")  # Use uma imagem adequada para a tela de cadastro
+        self.bg_width = self.bg_image.width()
+        self.bg_height = self.bg_image.height()
 
-        # Label e campo para Endereço
-        tk.Label(frame, text="Endereço:").grid(row=1, column=0, padx=5, pady=5, sticky='e')
-        self.endereco_entry = tk.Entry(frame)
-        self.endereco_entry.grid(row=1, column=1, padx=5, pady=5)
+        # Definir tamanho da janela para o tamanho da imagem
+        self.root.geometry(f"{self.bg_width}x{self.bg_height}")
+        self.root.resizable(False, False)  # Não permitir redimensionamento da janela
 
-        # Label e campo para Email
-        tk.Label(frame, text="Email:").grid(row=2, column=0, padx=5, pady=5, sticky='e')
-        self.email_entry = tk.Entry(frame)
-        self.email_entry.grid(row=2, column=1, padx=5, pady=5)
+        # Configurar o fundo da janela
+        self.bg_label = tk.Label(self.root, image=self.bg_image)
+        self.bg_label.place(relwidth=1, relheight=1)
 
-        # Label e campo para Senha
-        tk.Label(frame, text="Senha:").grid(row=3, column=0, padx=5, pady=5, sticky='e')
-        self.senha_entry = tk.Entry(frame, show='*')
-        self.senha_entry.grid(row=3, column=1, padx=5, pady=5)
+        # Criar e posicionar widgets da tela de cadastro
+        self.label_nome = ttk.Label(self.root, text="Nome:")
+        self.label_nome.place(x=50, y=100, anchor='w')
 
-        # Botão para Submeter
-        submit_button = tk.Button(frame, text="Cadastrar", command=self.cadastrar)
-        submit_button.grid(row=4, column=0, pady=10, sticky='e')
+        self.entry_nome = ttk.Entry(self.root)
+        self.entry_nome.place(x=150, y=100, width=200)
 
-        # Botão para Voltar para Tela Inicial
-        back_button = tk.Button(frame, text="Voltar para Tela Inicial", command=self.destroy)
-        back_button.grid(row=0, column=2, pady=10, sticky='w')
+        self.label_endereco = ttk.Label(self.root, text="Endereço:")
+        self.label_endereco.place(x=50, y=140, anchor='w')
 
-        # Botão para Voltar para Login
-        login_button = tk.Button(frame, text="Voltar para Login", command=self.show_login)
-        login_button.grid(row=1, column=2, columnspan=2, pady=10)
+        self.entry_endereco = ttk.Entry(self.root)
+        self.entry_endereco.place(x=150, y=140, width=200)
 
-    def cadastrar(self):
-        nome = self.nome_entry.get()
-        endereco = self.endereco_entry.get()
-        email = self.email_entry.get()
-        senha = self.senha_entry.get()
-        self.controller.register_user(nome, endereco, email, senha)
+        self.label_email = ttk.Label(self.root, text="Email:")
+        self.label_email.place(x=50, y=180, anchor='w')
 
-    def show_login(self):
-        self.destroy()  # Fecha a tela de cadastro
-        self.controller.show_login()  # Abre a tela de login
+        self.entry_email = ttk.Entry(self.root)
+        self.entry_email.place(x=150, y=180, width=200)
+
+        self.label_senha = ttk.Label(self.root, text="Senha:")
+        self.label_senha.place(x=50, y=220, anchor='w')
+
+        self.entry_senha = ttk.Entry(self.root, show='*')
+        self.entry_senha.place(x=150, y=220, width=200)
+    
+
+        self.botao_salvar = ttk.Button(self.root, text="Salvar", command=self.salvar)
+        self.botao_salvar.place(x=self.bg_width // 2 - 50, y=self.bg_height - 120)
+
+        self.botao_login = ttk.Button(self.root, text="Ir para Login", command=self.ir_para_login)
+        self.botao_login.place(x=self.bg_width // 2 - 75, y=self.bg_height - 80, width=150, height=30)
+
+        self.botao_produtos = ttk.Button(self.root, text="Ir para Produtos", command=self.ir_para_produtos)
+        self.botao_produtos.place(x=self.bg_width // 2 - 75, y=self.bg_height - 40, width=150, height=30)
+
+        # Inicializar o controlador
+        self.controller = CadastroController(self)
+
+    def salvar(self):
+        nome = self.entry_nome.get()
+        email = self.entry_email.get()
+        senha = self.entry_senha.get()
+        endereco = self.entry_endereco.get()
+        print(f"Nome: {nome},  Endereço: {endereco}, Email: {email}, Senha: {senha}")
+
+        # Lógica para salvar os dados do cadastro
+        # ...
+
+        # Fechar a tela de cadastro
+        self.root.destroy()
+        
+        # Reexibir a tela inicial
+        self.parent.deiconify()
+
+    def ir_para_login(self):
+        # Fechar a tela de cadastro
+        self.root.destroy()
+        
+        # Recriar e exibir a tela de login
+        from view.login_v import TelaLogin
+        TelaLogin(self.parent)
+
+    def ir_para_produtos(self):
+        # Fechar a tela de cadastro
+        self.root.destroy()
+        
+        # Recriar e exibir a tela de produtos
+        from view.produtos_v import TelaProdutos
+        TelaProdutos(self.parent)
+
+
+
 
 
 
