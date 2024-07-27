@@ -1,7 +1,9 @@
+# view/tela_cadastro.py
 import tkinter as tk
-from tkinter import PhotoImage
-from tkinter import ttk
+from tkinter import PhotoImage, ttk
 from controller.cadastro_c import CadastroController
+from view.login_v import TelaLogin
+from view.produtos_v import TelaProdutos
 
 class TelaCadastro:
     def __init__(self, parent):
@@ -12,7 +14,7 @@ class TelaCadastro:
         self.root.title("Tela de Cadastro")
 
         # Carregar imagem de fundo
-        self.bg_image = PhotoImage(file="midia/Feeling.png")  # Use uma imagem adequada para a tela de cadastro
+        self.bg_image = PhotoImage(file="midia/Feeling.png")
         self.bg_width = self.bg_image.width()
         self.bg_height = self.bg_image.height()
 
@@ -48,7 +50,6 @@ class TelaCadastro:
 
         self.entry_senha = ttk.Entry(self.root, show='*')
         self.entry_senha.place(x=150, y=220, width=200)
-    
 
         self.botao_salvar = ttk.Button(self.root, text="Salvar", command=self.salvar)
         self.botao_salvar.place(x=self.bg_width // 2 - 50, y=self.bg_height - 120)
@@ -59,46 +60,27 @@ class TelaCadastro:
         self.botao_produtos = ttk.Button(self.root, text="Ir para Produtos", command=self.ir_para_produtos)
         self.botao_produtos.place(x=self.bg_width // 2 - 75, y=self.bg_height - 40, width=150, height=30)
 
-        # Inicializar o controlador
-        self.controller = CadastroController(self)
-
     def salvar(self):
         nome = self.entry_nome.get()
+        endereco = self.entry_endereco.get()
         email = self.entry_email.get()
         senha = self.entry_senha.get()
-        endereco = self.entry_endereco.get()
-        print(f"Nome: {nome},  Endereço: {endereco}, Email: {email}, Senha: {senha}")
-
-        # Lógica para salvar os dados do cadastro
-        # ...
-
-        # Fechar a tela de cadastro
-        self.root.destroy()
         
-        # Reexibir a tela inicial
-        self.parent.deiconify()
+        # Aqui você pode adicionar a lógica para salvar os dados
+        print(f"Nome: {nome}")
+        print(f"Endereço: {endereco}")
+        print(f"Email: {email}")
+        print(f"Senha: {senha}")
 
     def ir_para_login(self):
-        # Fechar a tela de cadastro
-        self.root.destroy()
-        
-        # Recriar e exibir a tela de login
-        from view.login_v import TelaLogin
-        TelaLogin(self.parent)
+        self.root.destroy()  # Fechar a tela de cadastro
+        TelaLogin(self.parent)  # Abrir a tela de login
 
+    # view/cadastro_v.py
     def ir_para_produtos(self):
-        # Fechar a tela de cadastro
-        self.root.destroy()
-        
-        # Recriar e exibir a tela de produtos
-        from view.produtos_v import TelaProdutos
-        TelaProdutos(self.parent)
+        self.root.destroy()  # Fechar a tela de cadastro
+        controller = CadastroController()  # Crie o controller apropriado
+        TelaProdutos(self.parent, controller)  # Abrir a tela de produtos com o controller
 
 
-
-
-
-
-
-
-
+       

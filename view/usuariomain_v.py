@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 
+
 class MainApplication(tk.Toplevel):
     def __init__(self, root=None, controller=None):
         super().__init__(root)

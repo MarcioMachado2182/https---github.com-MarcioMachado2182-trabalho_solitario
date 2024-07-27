@@ -1,9 +1,5 @@
 import tkinter as tk
-from tkinter import PhotoImage
-from tkinter import ttk
-from controller.usuario_c import UsuarioController
-from view.login_v import TelaLogin
-from view.cadastro_v import TelaCadastro
+from tkinter import PhotoImage, ttk
 
 class TelaInicial:
     def __init__(self):
@@ -33,36 +29,27 @@ class TelaInicial:
         self.botao_produtos = ttk.Button(self.root, text="Ir para Produtos", command=self.ir_para_produtos)
         self.botao_produtos.place(x=self.bg_width // 2 - 75, y=self.bg_height - 40, width=150, height=30)
 
-        # Inicializar o controlador
-        self.controller = UsuarioController(self)
-
     def ir_para_cadastro(self):
-        # Ocultar a tela inicial
         self.root.withdraw()
-        
-        # Cria uma nova instância da tela de cadastro
         from view.cadastro_v import TelaCadastro
         TelaCadastro(self.root)
 
     def ir_para_login(self):
-        # Ocultar a tela inicial
         self.root.withdraw()
-        
-        # Cria uma nova instância da tela de login
+        from view.login_v import TelaLogin
         TelaLogin(self.root)
 
     def ir_para_produtos(self):
-        # Ocultar a tela inicial
         self.root.withdraw()
-        
-        # Cria uma nova instância da tela de produtos
         from view.produtos_v import TelaProdutos
         TelaProdutos(self.root)
 
     def run(self):
         self.root.mainloop()
 
-
+if __name__ == "__main__":
+    app = TelaInicial()
+    app.run()
 
 
 

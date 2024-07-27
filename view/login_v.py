@@ -1,8 +1,7 @@
+# view/tela_login.py
 import tkinter as tk
-from tkinter import PhotoImage
-from tkinter import ttk
+from tkinter import PhotoImage, ttk
 from controller.login_c import LoginController
-from view.cadastro_v import TelaCadastro
 from view.produtos_v import TelaProdutos
 
 class TelaLogin:
@@ -14,7 +13,7 @@ class TelaLogin:
         self.root.title("Tela de Login")
 
         # Carregar imagem de fundo
-        self.bg_image = PhotoImage(file="midia/Feeling.png")  # Use uma imagem adequada para a tela de login
+        self.bg_image = PhotoImage(file="midia/Feeling.png")
         self.bg_width = self.bg_image.width()
         self.bg_height = self.bg_image.height()
 
@@ -54,7 +53,10 @@ class TelaLogin:
     def login(self):
         email = self.entry_email.get()
         senha = self.entry_senha.get()
-        self.controller.login(email, senha)  # Usa o controlador para autenticar o usuário
+        print(f"Email: {email}, Senha: {senha}")
+
+        # Lógica para fazer o login
+        # ...
 
         # Fechar a tela de login
         self.root.destroy()
@@ -67,14 +69,14 @@ class TelaLogin:
         self.root.destroy()
         
         # Recriar e exibir a tela de cadastro
+        from view.cadastro_v import TelaCadastro
         TelaCadastro(self.parent)
 
+    # view/login_v.py
     def ir_para_produtos(self):
-        # Fechar a tela de login
-        self.root.destroy()
-        
-        # Recriar e exibir a tela de produtos
-        TelaProdutos(self.parent)
+        self.root.destroy()  # Fechar a tela de login
+        controller = LoginController()  # Crie o controller apropriado
+        TelaProdutos(self.parent, controller)  # Abrir a tela de produtos com o controller
 
 
 
