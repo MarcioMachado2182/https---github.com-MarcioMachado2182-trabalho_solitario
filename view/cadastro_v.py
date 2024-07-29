@@ -78,9 +78,12 @@ class TelaCadastro:
 
     # view/cadastro_v.py
     def ir_para_produtos(self):
-        self.root.destroy()  # Fechar a tela de cadastro
-        controller = CadastroController()  # Crie o controller apropriado
-        TelaProdutos(self.parent, controller)  # Abrir a tela de produtos com o controller
+        self.root.withdraw()
+        from view.produtos_v import TelaProdutos
+        from controller.produtos_c import ProdutosController
+        controller = ProdutosController(self)
+        self.produtos_window = tk.Toplevel(self.root)
+        TelaProdutos(self.produtos_window, controller)
 
 
        

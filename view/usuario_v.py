@@ -6,6 +6,9 @@ class TelaInicial:
         self.root = tk.Tk()
         self.root.title("Tela Inicial")
 
+         # Atributo para armazenar o estado de login do usuário
+        self.usuario_logado = False
+
         # Carregar imagem de fundo
         self.bg_image = PhotoImage(file="midia/Feeling.png")
         self.bg_width = self.bg_image.width()
@@ -42,7 +45,10 @@ class TelaInicial:
     def ir_para_produtos(self):
         self.root.withdraw()
         from view.produtos_v import TelaProdutos
-        TelaProdutos(self.root)
+        from controller.produtos_c import ProdutosController
+        controller = ProdutosController(self)
+        self.produtos_window = tk.Toplevel(self.root)
+        TelaProdutos(self.produtos_window, controller)
 
     def run(self):
         self.root.mainloop()
