@@ -1,15 +1,13 @@
-# view/produtos_v.py
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import messagebox
-from view.usuario_v import TelaInicial
 
 class TelaProdutos:
-    def __init__(self, root, controller):
+    def __init__(self, root, controller, usuario_v):
         self.root = root
         self.controller = controller
-        self.usuario_v = TelaInicial  # Referência à tela inicial/usuario_v
+        self.usuario_v = usuario_v  # Referência à tela inicial/usuario_v
         self.frame = ttk.Frame(root)
         self.frame.pack(fill=tk.BOTH, expand=True)
 
@@ -66,15 +64,14 @@ class TelaProdutos:
             print(f"{produto} já está no carrinho!")
 
     def voltar_para_tela_inicial(self):
-        self.frame.pack_forget()
-        from view.usuario_v import TelaInicial
-        TelaInicial(self.root)
+        self.root.destroy()  # Fechar a janela atual
+        self.usuario_v.root.deiconify()  # Mostrar a janela da tela inicial existente
 
     def concluir_pedido(self):
-        if not self.tela_inicial.usuario_logado:
+        if not self.usuario_v.usuario_logado:
             messagebox.showwarning("Aviso", "Você deve efetuar seu login para concluir o pedido.")
             return
-        
+
         if not self.itens_carrinho:
             messagebox.showwarning("Aviso", "Você deve adicionar pelo menos um produto ao carrinho antes de concluir o pedido.")
         else:
@@ -82,6 +79,7 @@ class TelaProdutos:
             self.frame.pack_forget()
             from view.carrinho_v import TelaCarrinho
             TelaCarrinho(self.root)
+
 
 
 

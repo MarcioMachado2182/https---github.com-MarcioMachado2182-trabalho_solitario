@@ -1,89 +1,69 @@
-# view/tela_cadastro.py
 import tkinter as tk
-from tkinter import PhotoImage, ttk
-from controller.cadastro_c import CadastroController
-from view.login_v import TelaLogin
-from view.produtos_v import TelaProdutos
+from tkinter import ttk
 
 class TelaCadastro:
-    def __init__(self, parent):
-        self.parent = parent  # Referência para a tela inicial
+    def __init__(self, root, usuario_v):
+        self.root = root
+        self.usuario_v = usuario_v  # Referência à tela inicial/usuario_v
+        self.frame = ttk.Frame(root)
+        self.frame.pack(fill=tk.BOTH, expand=True)
 
-        # Cria uma nova janela (toplevel)
-        self.root = tk.Toplevel()
-        self.root.title("Tela de Cadastro")
+        # Ajustar a geometria da janela
+        self.root.geometry("400x400")
 
-        # Carregar imagem de fundo
-        self.bg_image = PhotoImage(file="midia/Feeling.png")
-        self.bg_width = self.bg_image.width()
-        self.bg_height = self.bg_image.height()
-
-        # Definir tamanho da janela para o tamanho da imagem
-        self.root.geometry(f"{self.bg_width}x{self.bg_height}")
-        self.root.resizable(False, False)  # Não permitir redimensionamento da janela
-
-        # Configurar o fundo da janela
-        self.bg_label = tk.Label(self.root, image=self.bg_image)
-        self.bg_label.place(relwidth=1, relheight=1)
-
-        # Criar e posicionar widgets da tela de cadastro
         self.label_nome = ttk.Label(self.root, text="Nome:")
-        self.label_nome.place(x=50, y=100, anchor='w')
+        self.label_nome.place(x=50, y=50, anchor='w')
 
         self.entry_nome = ttk.Entry(self.root)
-        self.entry_nome.place(x=150, y=100, width=200)
+        self.entry_nome.place(x=150, y=50, width=200)
 
         self.label_endereco = ttk.Label(self.root, text="Endereço:")
-        self.label_endereco.place(x=50, y=140, anchor='w')
+        self.label_endereco.place(x=50, y=90, anchor='w')
 
         self.entry_endereco = ttk.Entry(self.root)
-        self.entry_endereco.place(x=150, y=140, width=200)
+        self.entry_endereco.place(x=150, y=90, width=200)
 
         self.label_email = ttk.Label(self.root, text="Email:")
-        self.label_email.place(x=50, y=180, anchor='w')
+        self.label_email.place(x=50, y=130, anchor='w')
 
         self.entry_email = ttk.Entry(self.root)
-        self.entry_email.place(x=150, y=180, width=200)
+        self.entry_email.place(x=150, y=130, width=200)
 
         self.label_senha = ttk.Label(self.root, text="Senha:")
-        self.label_senha.place(x=50, y=220, anchor='w')
+        self.label_senha.place(x=50, y=170, anchor='w')
 
         self.entry_senha = ttk.Entry(self.root, show='*')
-        self.entry_senha.place(x=150, y=220, width=200)
+        self.entry_senha.place(x=150, y=170, width=200)
 
         self.botao_salvar = ttk.Button(self.root, text="Salvar", command=self.salvar)
-        self.botao_salvar.place(x=self.bg_width // 2 - 50, y=self.bg_height - 120)
+        self.botao_salvar.place(x=150, y=220, width=100)
 
-        self.botao_login = ttk.Button(self.root, text="Ir para Login", command=self.ir_para_login)
-        self.botao_login.place(x=self.bg_width // 2 - 75, y=self.bg_height - 80, width=150, height=30)
+        self.botao_voltar = ttk.Button(self.root, text="Voltar para Tela Inicial", command=self.voltar_para_tela_inicial)
+        self.botao_voltar.place(x=150, y=260, width=200)
 
         self.botao_produtos = ttk.Button(self.root, text="Ir para Produtos", command=self.ir_para_produtos)
-        self.botao_produtos.place(x=self.bg_width // 2 - 75, y=self.bg_height - 40, width=150, height=30)
+        self.botao_produtos.place(x=150, y=300, width=200)
 
     def salvar(self):
         nome = self.entry_nome.get()
         endereco = self.entry_endereco.get()
         email = self.entry_email.get()
         senha = self.entry_senha.get()
-        
-        # Aqui você pode adicionar a lógica para salvar os dados
-        print(f"Nome: {nome}")
-        print(f"Endereço: {endereco}")
-        print(f"Email: {email}")
-        print(f"Senha: {senha}")
+        # Implementar lógica de salvar os dados
 
-    def ir_para_login(self):
-        self.root.destroy()  # Fechar a tela de cadastro
-        TelaLogin(self.parent)  # Abrir a tela de login
+    def voltar_para_tela_inicial(self):
+        self.root.destroy()
+        self.usuario_v.root.deiconify()
 
-    # view/cadastro_v.py
     def ir_para_produtos(self):
         self.root.withdraw()
         from view.produtos_v import TelaProdutos
         from controller.produtos_c import ProdutosController
-        controller = ProdutosController(self)
+        controller = ProdutosController(self.usuario_v)
         self.produtos_window = tk.Toplevel(self.root)
-        TelaProdutos(self.produtos_window, controller)
+        TelaProdutos(self.produtos_window, controller, self.usuario_v)
+
+
 
 
        
